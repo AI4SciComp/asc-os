@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-EXPERIMENTS, title: Synthetic experiments, status: completed, labels: [evidence]}
+spec:
+  parent: CTX-ROOT
+  question: Do the checked-in fictional results match their declared hashes?
+  inputs:
+    contexts: [CTX-ORBIT, CTX-ANALYSIS]
+    files: [results/orbit-limit.json, results/unit-test.json]
+  outputs: [{type: evidence, id: EVD-ORBIT-TEST}]
+  acceptance: [all local evidence checksums match]
+  excluded_scope: [benchmark generalization]

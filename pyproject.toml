@@ -1,0 +1,175 @@
+[build-system]
+requires = ["hatchling==1.32.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "asc-os"
+version = "0.1.0.dev0"
+description = "Local-first AI research operating system for reproducible research state."
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+license = "Apache-2.0"
+authors = [{name = "AI4SciComp"}]
+keywords = ["research", "provenance", "mcp", "reproducibility"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Typed",
+]
+dependencies = [
+  "jsonschema>=4.26.0,<5",
+  "PyYAML>=6.0.3,<7",
+  "referencing>=0.37.0,<1",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp==2.1.1"]
+
+[project.scripts]
+asc-os = "asc_os.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/AI4SciComp/asc-os"
+Documentation = "https://github.com/AI4SciComp/asc-os/tree/main/docs"
+Issues = "https://github.com/AI4SciComp/asc-os/issues"
+Repository = "https://github.com/AI4SciComp/asc-os"
+
+[dependency-groups]
+dev = [
+  "build==1.6.0",
+  "hypothesis==6.165.10",
+  "pip-audit==2.10.1",
+  "pylint==4.0.8",
+  "pyright==1.1.411",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.5",
+  "twine==7.0.0",
+  "types-PyYAML==6.0.12.20260815",
+]
+docs = [
+  "furo==2025.12.19",
+  "myst-parser==5.1.0",
+  "sphinx==9.1.0",
+]
+
+[tool.uv]
+default-groups = ["dev", "docs"]
+required-version = ">=0.12.0"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/asc_os"]
+
+[tool.hatch.build.targets.wheel.force-include]
+schemas = "asc_os/schemas"
+templates = "asc_os/templates"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/.github",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/CODE_OF_CONDUCT.md",
+  "/CONTRIBUTING.md",
+  "/Makefile",
+  "/RESEARCH.md",
+  "/SECURITY.md",
+  "/src",
+  "/schemas",
+  "/templates",
+  "/docs",
+  "/examples",
+  "/scripts",
+  "/README.md",
+  "/LICENSE",
+  "/THIRD_PARTY_NOTICES.md",
+]
+
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+extend-exclude = ["examples/expected"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = [
+  "A", "ANN", "ARG", "B", "BLE", "C4", "C90", "D", "E", "F",
+  "I", "N", "PERF", "PIE", "PL", "PTH", "RSE", "RUF", "S", "SIM",
+  "T20", "TRY", "UP",
+]
+ignore = ["ANN401", "D203", "D213", "TRY003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN", "D", "S101", "S108", "PLR2004"]
+"scripts/**/*.py" = ["T201"]
+"src/asc_os/cli.py" = ["T201"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 18
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 18
+max-locals = 18
+max-statements = 70
+
+[tool.pylint.main]
+py-version = "3.12"
+jobs = 0
+ignore-paths = ["^examples/"]
+
+[tool.pylint.format]
+max-line-length = 80
+
+[tool.pylint.messages_control]
+disable = [
+  "broad-exception-caught",
+  "duplicate-code",
+  "fixme",
+  "import-outside-toplevel",
+  "invalid-name",
+  "line-too-long",
+  "missing-module-docstring",
+  "too-few-public-methods",
+]
+
+[tool.pylint.design]
+max-args = 10
+max-branches = 18
+max-locals = 24
+max-parents = 10
+max-positional-arguments = 8
+max-returns = 15
+max-statements = 70
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.12"
+include = ["src", "tests", "scripts"]
+exclude = ["examples"]
+reportMissingTypeStubs = "none"
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers"
+testpaths = ["tests"]
+xfail_strict = true
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["asc_os"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+]

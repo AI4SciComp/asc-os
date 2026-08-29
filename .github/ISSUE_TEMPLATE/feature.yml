@@ -1,0 +1,30 @@
+name: Feature proposal
+description: Propose a bounded research-state capability.
+title: "feature: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Research workflow problem
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Proposed public contract
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Repository and capability boundaries
+      description: Explain effects on schemas, deterministic output, and MCP security.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Acceptance evidence
+    validations:
+      required: true

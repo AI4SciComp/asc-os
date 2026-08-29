@@ -1,0 +1,22 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata: {id: OVL-ANALYSIS-EXPERIMENTS, title: Evidence readiness, status: active, labels: []}
+spec:
+  left: CTX-ANALYSIS
+  right: CTX-EXPERIMENTS
+  checks:
+    - id: analysis-state
+      type: file_exists
+      left: {file: research/contexts/analysis/state.yaml}
+    - id: orbit-claim
+      type: claim_status_at_least
+      reference: CLM-ORBIT-AP
+      minimum_status: verified
+    - id: project-schema
+      type: schema_valid
+      left: {file: research/project.yaml}
+    - id: root-reference
+      type: reference_resolves
+      reference: CTX-ROOT
+      kind: ResearchContext
+  failure_policy: block_gluing

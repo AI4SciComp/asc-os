@@ -1,0 +1,9 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchDecision
+metadata: {id: DEC-ENERGY, title: Use a fictional energy coordinate, status: active, labels: [fixture]}
+spec:
+  decision: Use g as the named energy coordinate in all synthetic interface fixtures.
+  rationale: [it keeps the overlap examples small, it has no claimed physical novelty]
+  evidence: []
+  supersedes: []
+  affected_contexts: [CTX-MODEL, CTX-ORBIT, CTX-SEMILAGRANGIAN]

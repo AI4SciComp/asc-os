@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchSkill
+metadata: {id: SKL-REVIEW, title: External fixture review procedure, status: active, labels: [descriptive]}
+spec:
+  version: 0.1.0
+  capabilities: [verify, review]
+  required_context_fields: [question, acceptance]
+  input_schema: schemas/skills/review-input.schema.json
+  output_schema: schemas/skills/review-output.schema.json
+  execution: {mode: external, trusted: false}

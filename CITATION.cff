@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: Cite the archived release associated with the version you used.
+title: ASC OS
+type: software
+version: 0.1.0.dev0
+authors:
+  - name: AI4SciComp contributors
+license: Apache-2.0
+repository-code: https://github.com/AI4SciComp/asc-os

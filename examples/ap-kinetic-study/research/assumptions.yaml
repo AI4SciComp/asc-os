@@ -1,0 +1,5 @@
+assumptions:
+  - id: ASM-SMOOTH
+    statement: All fictional fixture fields are smooth and bounded.
+  - id: ASM-FIXED-STEP
+    statement: The illustrative time step is independent of epsilon.

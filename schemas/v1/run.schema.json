@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/run.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchRun"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "input_hashes", "tool_versions", "git", "started_at"],
+      "properties": {
+        "phase": {"enum": ["explore", "cover", "plan", "execute", "verify", "glue", "project"]},
+        "context": {"type": ["string", "null"]},
+        "input_hashes": {"type": "object", "additionalProperties": {"$ref": "common.schema.json#/$defs/hash"}},
+        "tool_versions": {"type": "object", "additionalProperties": {"type": "string"}},
+        "git": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository", "commit", "dirty"],
+          "properties": {
+            "repository": {"type": "string"},
+            "commit": {"type": ["string", "null"]},
+            "dirty": {"type": "boolean"}
+          }
+        },
+        "started_at": {"type": "string", "format": "date-time"},
+        "finished_at": {"type": "string", "format": "date-time"},
+        "result": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exit_code", "outputs"],
+          "properties": {
+            "exit_code": {"type": "integer", "minimum": 0, "maximum": 255},
+            "outputs": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/relativePath"}}
+          }
+        }
+      }
+    }
+  }
+}
+

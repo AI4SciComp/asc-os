@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchArtifact"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "contexts", "claims", "required_evidence_classes", "output_contract"],
+      "properties": {
+        "artifact_type": {"enum": ["paper", "proposal", "code", "dataset", "report", "slides"]},
+        "contexts": {"$ref": "common.schema.json#/$defs/idArray"},
+        "claims": {"$ref": "common.schema.json#/$defs/idArray"},
+        "required_evidence_classes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "output_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["format", "path"],
+          "properties": {
+            "format": {"const": "manifest_only"},
+            "path": {"$ref": "common.schema.json#/$defs/relativePath"}
+          }
+        }
+      }
+    }
+  }
+}
+

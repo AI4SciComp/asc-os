@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata: {id: EVD-UNIT-TEST, title: Synthetic unit-test record, status: verified, labels: [synthetic]}
+spec:
+  evidence_type: unit_test
+  produced_by_run: null
+  sources:
+    - {uri: 'file:results/unit-test.json', sha256: '94049df821b7a3d9a5e55b7aed0a5e97ddb4ec959272c44deeb2bfe1d6886005', media_type: application/json, license: CC0-1.0}
+  supports: [CLM-ORBIT-AP]
+  limitations: [fixture-only checks]

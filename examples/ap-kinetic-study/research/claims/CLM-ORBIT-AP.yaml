@@ -1,0 +1,24 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata: {id: CLM-ORBIT-AP, title: Illustrative fixed-step agreement, status: verified, labels: [fixture]}
+spec:
+  context: CTX-ORBIT
+  statement: The fictional orbit fixture agrees with its declared limit identifier for the checked cases.
+  assumptions: [ASM-SMOOTH, ASM-FIXED-STEP]
+  depends_on: [CLM-LIMIT-SYSTEM]
+  evidence: [EVD-ORBIT-DERIVATION, EVD-ORBIT-TEST, EVD-UNIT-TEST]
+  projections: {paper: section-orbit, proposal: innovation-orbit, code: orbit-check}
+  required_evidence_classes: [mathematical_derivation, numerical_test, unit_test]
+  input_hashes:
+    claim_definition: 150cfac6dc3f738e8f5db89c3f3014efa0370befd47c134c69f1cf008751ed0e
+    evidence-source:results/orbit-derivation.txt: 77ea37a22529878e1e5e130fa8da8575e371f25cf38a63417e9a854ab2037516
+    evidence-source:results/orbit-limit.json: 6b19fc498794a55ad17775fcc16e44e9c0e4c510e27634f405a42bd12bd087cc
+    evidence-source:results/unit-test.json: 94049df821b7a3d9a5e55b7aed0a5e97ddb4ec959272c44deeb2bfe1d6886005
+    research/assumptions.yaml: e197e07c5ee03c41692e60cc7c0c893c1290cd6f67139079ac215a6de4abd13d
+    research/claims/CLM-LIMIT-SYSTEM.yaml: 5d70a6ca1df08451b5d1e0cff0fe8af0a61a2a56a6ae810c0059267d6865920e
+    research/contexts/orbit/context.yaml: cb66338a5a0a88caab4442aabb9721db5c3ec9e65977c68b47f029894eac9d67
+    research/decisions/DEC-ENERGY.yaml: c353e500e30d1439322625a0abc8951a1b72b601aaf3fd3adf1f7e6d44d923ed
+    research/evidence/EVD-ORBIT-DERIVATION/manifest.yaml: a6323a2cc1df3257b28cff97fe2eced69d477cf7ed9df10117cda431cdce2756
+    research/evidence/EVD-ORBIT-TEST/manifest.yaml: 308a6052c5700b201d1368e69f4e0b9f539ab3327470899be72d090cda6a08c7
+    research/evidence/EVD-UNIT-TEST/manifest.yaml: 7d6945ea5f71f4637912b90218f8d1cf81cedff34ca4476002769a584fd21333
+    research/notation.yaml: 1aa05ec8a18a7254f06498e87cb1b16a9bb83e34bae31761d87b20e1c74c4e12

@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata: {id: OVL-SEMILAGRANGIAN-ANALYSIS, title: Ordered interface agreement, status: active, labels: []}
+spec:
+  left: CTX-SEMILAGRANGIAN
+  right: CTX-ANALYSIS
+  checks:
+    - id: ordered-interface
+      type: ordered_list_equal
+      left: {file: research/contexts/semilagrangian/state.yaml, pointer: /interface}
+      right: {file: research/contexts/analysis/state.yaml, pointer: /interface}
+  failure_policy: block_gluing

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/cover.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchCover"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "members", "requirements", "required_overlaps"],
+      "properties": {
+        "target": {"type": "string"},
+        "members": {"$ref": "common.schema.json#/$defs/idArray"},
+        "requirements": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "common.schema.json#/$defs/idArray"}},
+        "required_overlaps": {"$ref": "common.schema.json#/$defs/idArray"}
+      }
+    }
+  }
+}
+

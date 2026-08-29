@@ -1,0 +1,5 @@
+symbols:
+  epsilon: Illustrative scale-separation parameter.
+  x: Synthetic position coordinate.
+  v: Synthetic velocity coordinate.
+  g: Synthetic energy coordinate equal to one half v squared.

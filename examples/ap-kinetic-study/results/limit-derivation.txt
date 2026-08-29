@@ -1,0 +1,1 @@
+Synthetic fixture: symbolic cancellation yields the declared illustrative limit.

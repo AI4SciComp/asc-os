@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/context.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchContext"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "inputs", "outputs", "acceptance", "excluded_scope"],
+      "properties": {
+        "parent": {"type": ["string", "null"]},
+        "question": {"type": "string", "minLength": 1},
+        "inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contexts", "files"],
+          "properties": {
+            "contexts": {"$ref": "common.schema.json#/$defs/idArray"},
+            "files": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/relativePath"}, "uniqueItems": true}
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type"],
+            "properties": {
+              "type": {"type": "string"},
+              "path": {"$ref": "common.schema.json#/$defs/relativePath"},
+              "id": {"type": "string"}
+            }
+          }
+        },
+        "acceptance": {"type": "array", "items": {"type": "string"}},
+        "excluded_scope": {"type": "array", "items": {"type": "string"}},
+        "permitted_tools": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "excluded_paths": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/relativePath"}, "uniqueItems": true}
+      }
+    }
+  }
+}
+

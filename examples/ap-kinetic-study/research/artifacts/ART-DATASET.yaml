@@ -1,0 +1,9 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchArtifact
+metadata: {id: ART-DATASET, title: Dataset record projection, status: active, labels: [manifest-only]}
+spec:
+  artifact_type: dataset
+  contexts: [CTX-EXPERIMENTS]
+  claims: [CLM-ORBIT-AP]
+  required_evidence_classes: [numerical_test]
+  output_contract: {format: manifest_only, path: build/artifacts/dataset-manifest.json}

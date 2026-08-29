@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/overlap.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchOverlap"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right", "checks", "failure_policy"],
+      "properties": {
+        "left": {"type": "string"},
+        "right": {"type": "string"},
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "type"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "type": {"enum": ["value_equal", "set_equal", "ordered_list_equal", "content_hash_equal", "reference_resolves", "schema_valid", "claim_status_at_least", "file_exists"]},
+              "left": {"$ref": "common.schema.json#/$defs/operand"},
+              "right": {"$ref": "common.schema.json#/$defs/operand"},
+              "reference": {"type": "string"},
+              "kind": {"type": "string"},
+              "minimum_status": {"type": "string"}
+            }
+          }
+        },
+        "failure_policy": {"enum": ["block_gluing", "warn"]}
+      }
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata: {id: EVD-LIMIT-DERIVATION, title: Fictional limit derivation, status: verified, labels: [synthetic]}
+spec:
+  evidence_type: mathematical_derivation
+  produced_by_run: null
+  sources:
+    - {uri: 'file:results/limit-derivation.txt', sha256: '84ba07b3a90e9062165a2fa9f714f8f1c1fb8ecbf8bea4faa0ec76a3642cc1de', media_type: text/plain, license: CC0-1.0}
+  supports: [CLM-LIMIT-SYSTEM]
+  limitations: [illustrative symbolic fixture, not a proof]

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/common.schema.json",
+  "title": "ASC OS common manifest definitions",
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)+$"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 240},
+        "status": {
+          "type": "string",
+          "enum": ["draft", "planned", "active", "completed", "verified", "rejected", "superseded", "archived", "failed"]
+        },
+        "labels": {"type": "array", "items": {"type": "string"}, "uniqueItems": true, "default": []},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "idArray": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "operand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {"$ref": "#/$defs/relativePath"},
+        "pointer": {"type": "string", "pattern": "^/"}
+      }
+    }
+  }
+}
+

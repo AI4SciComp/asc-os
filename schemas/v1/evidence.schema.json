@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/evidence.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchEvidence"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "sources", "supports", "limitations"],
+      "properties": {
+        "evidence_type": {"enum": ["mathematical_derivation", "formal_proof", "unit_test", "property_test", "numerical_test", "benchmark", "literature_source", "code_review", "artifact_build"]},
+        "produced_by_run": {"type": ["string", "null"]},
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["uri", "sha256", "media_type"],
+            "properties": {
+              "uri": {"type": "string", "minLength": 1},
+              "sha256": {"$ref": "common.schema.json#/$defs/hash"},
+              "media_type": {"type": "string", "minLength": 1},
+              "license": {"type": "string"}
+            }
+          }
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {"manifest": {"$ref": "common.schema.json#/$defs/relativePath"}}
+        },
+        "supports": {"$ref": "common.schema.json#/$defs/idArray"},
+        "contradicts": {"$ref": "common.schema.json#/$defs/idArray"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
+

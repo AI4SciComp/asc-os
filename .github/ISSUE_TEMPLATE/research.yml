@@ -1,0 +1,29 @@
+name: Research design
+description: Propose a research lifecycle or evidence-model change.
+title: "research: "
+labels: [research]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Bounded research question
+    validations:
+      required: true
+  - type: textarea
+    id: contexts
+    attributes:
+      label: Contexts, overlaps, and evidence
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: Falsification and verification plan
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Data, license, and provenance constraints
+    validations:
+      required: true

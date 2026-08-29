@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/claim.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchClaim"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context", "statement", "assumptions", "depends_on", "evidence", "projections"],
+      "properties": {
+        "context": {"type": "string"},
+        "statement": {"type": "string", "minLength": 1},
+        "assumptions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "depends_on": {"$ref": "common.schema.json#/$defs/idArray"},
+        "evidence": {"$ref": "common.schema.json#/$defs/idArray"},
+        "projections": {"type": "object", "additionalProperties": {"type": "string"}},
+        "required_evidence_classes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "input_hashes": {"type": "object", "additionalProperties": {"$ref": "common.schema.json#/$defs/hash"}}
+      }
+    }
+  }
+}
+

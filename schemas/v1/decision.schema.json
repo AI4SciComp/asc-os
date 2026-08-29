@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/decision.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchDecision"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "rationale", "evidence", "supersedes", "affected_contexts"],
+      "properties": {
+        "decision": {"type": "string", "minLength": 1},
+        "rationale": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "evidence": {"$ref": "common.schema.json#/$defs/idArray"},
+        "supersedes": {"$ref": "common.schema.json#/$defs/idArray"},
+        "affected_contexts": {"$ref": "common.schema.json#/$defs/idArray"}
+      }
+    }
+  }
+}
+

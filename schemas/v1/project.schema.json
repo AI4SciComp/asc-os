@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/project.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchProject"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "root_context", "notation", "assumptions", "required_covers", "artifact_targets", "policies"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "root_context": {"type": "string"},
+        "notation": {"$ref": "common.schema.json#/$defs/relativePath"},
+        "assumptions": {"$ref": "common.schema.json#/$defs/relativePath"},
+        "required_covers": {"$ref": "common.schema.json#/$defs/idArray"},
+        "artifact_targets": {"$ref": "common.schema.json#/$defs/idArray"},
+        "policies": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verified_claim_requires_evidence", "generated_outputs_are_authoritative"],
+          "properties": {
+            "verified_claim_requires_evidence": {"type": "boolean"},
+            "generated_outputs_are_authoritative": {"const": false},
+            "required_evidence_classes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+          }
+        }
+      }
+    }
+  }
+}
+

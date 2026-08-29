@@ -1,0 +1,16 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-ORBIT, title: Illustrative orbit integrator, status: completed, labels: [orbit]}
+spec:
+  parent: CTX-ROOT
+  question: Does the fictional orbit fixture agree with the declared limit identifier?
+  inputs:
+    contexts: [CTX-MODEL, CTX-ASYMPTOTIC]
+    files: [research/contexts/orbit/state.yaml]
+  outputs:
+    - {type: derivation, path: research/contexts/orbit/state.yaml}
+    - {type: claim, id: CLM-ORBIT-AP}
+  acceptance: [OVL-ASYMPTOTIC-ORBIT passes, linked evidence checksums match]
+  excluded_scope: [GPU implementation, performance claims]
+  permitted_tools: [validate, overlap-check, evidence-verify]
+  excluded_paths: [private, credentials]

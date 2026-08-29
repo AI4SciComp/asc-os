@@ -1,0 +1,3 @@
+source_system_id: synthetic-kinetic-v1
+limit_system_id: synthetic-guiding-center-v1
+variables: [x, g]
