@@ -133,3 +133,25 @@ def test_output_symlink_is_rejected(tmp_path: Path) -> None:
     with pytest.raises(UnsafePathError):
         apply_plan(plan)
     assert not (outside / "result.txt").exists()
+
+
+def test_compare_before_replace_rejects_changed_previous_file(
+    tmp_path: Path,
+) -> None:
+    destination = tmp_path / "managed.yaml"
+    destination.write_text("state: changed\n", encoding="utf-8")
+    plan = WritePlan(
+        tmp_path,
+        (),
+        (
+            PlannedWrite(
+                "managed.yaml",
+                "state: finished\n",
+                expected_previous_sha256="0" * 64,
+            ),
+        ),
+    )
+    with pytest.raises(WriteConflictError) as caught:
+        apply_plan(plan)
+    assert caught.value.detail.code == "hand_authored_conflict"
+    assert destination.read_text(encoding="utf-8") == "state: changed\n"

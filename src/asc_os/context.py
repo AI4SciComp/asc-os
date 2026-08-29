@@ -288,7 +288,7 @@ def _context_model(
         "instructions": instruction_content,
         "source_excerpts": excerpts,
         "provenance": {
-            "git": asdict(_git_state(state.root)),
+            "git": asdict(git_state(state.root)),
             "source_hashes": hashes,
         },
     }
@@ -345,7 +345,8 @@ def _is_generated_instruction(path: Path) -> bool:
     return prefix.startswith("<!-- generated-by: asc-os; source-sha256: ")
 
 
-def _git_state(root: Path) -> GitState:
+def git_state(root: Path) -> GitState:
+    """Return stable Git provenance, excluding ASC OS derived output."""
     executable = shutil.which("git")
     if executable is None:
         return GitState(False, None, False, ())

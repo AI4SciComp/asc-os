@@ -81,3 +81,7 @@ class WriteConflictError(AscOSError):
 
 class ContextBuildError(AscOSError):
     """Raised when a deterministic context bundle cannot be constructed."""
+
+
+class LifecycleError(AscOSError):
+    """Raised for invalid or conflicting lifecycle operations."""

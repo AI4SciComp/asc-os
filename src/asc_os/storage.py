@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import cast
 
+from asc_os.canonical import file_hash
 from asc_os.errors import ErrorDetail, ExitCode, WriteConflictError
 from asc_os.paths import confined_path
 
@@ -23,6 +24,7 @@ class PlannedWrite:
     generated: bool = False
     source_hash: str | None = None
     allow_replace_owned: bool = False
+    expected_previous_sha256: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,6 +53,7 @@ class WritePlan:
                     "generated": item.generated,
                     "source_hash": item.source_hash,
                     "allow_replace_owned": item.allow_replace_owned,
+                    "expected_previous_sha256": item.expected_previous_sha256,
                 }
                 for item in self.writes
             ],
@@ -194,7 +197,11 @@ def _effective_plan(plan: WritePlan) -> WritePlan:
             if destination.read_bytes() == encoded:
                 skipped.append(item.path)
                 continue
-            if (
+            expected_matches = (
+                item.expected_previous_sha256 is not None
+                and file_hash(destination) == item.expected_previous_sha256
+            )
+            if not expected_matches and (
                 not item.generated
                 or not item.allow_replace_owned
                 or not _owned_generated(destination)
