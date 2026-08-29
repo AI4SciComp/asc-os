@@ -1,0 +1,9 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchArtifact
+metadata: {id: ART-PROPOSAL, title: Proposal record projection, status: active, labels: [manifest-only]}
+spec:
+  artifact_type: proposal
+  contexts: [CTX-ROOT, CTX-MODEL, CTX-ASYMPTOTIC, CTX-ORBIT]
+  claims: [CLM-LIMIT-SYSTEM, CLM-ORBIT-AP]
+  required_evidence_classes: [mathematical_derivation]
+  output_contract: {format: manifest_only, path: build/artifacts/proposal-manifest.json}

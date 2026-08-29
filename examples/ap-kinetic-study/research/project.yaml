@@ -1,0 +1,17 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchProject
+metadata:
+  id: PRJ-AP-KINETIC
+  title: Synthetic asymptotic-preserving kinetic study
+  status: active
+  labels: [example, synthetic]
+spec:
+  repository: AI4SciComp/asc-os
+  root_context: CTX-ROOT
+  notation: research/notation.yaml
+  assumptions: research/assumptions.yaml
+  required_covers: [COV-0001]
+  artifact_targets: [ART-PAPER, ART-PROPOSAL, ART-CODE, ART-DATASET]
+  policies:
+    verified_claim_requires_evidence: true
+    generated_outputs_are_authoritative: false

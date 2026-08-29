@@ -1,0 +1,2 @@
+interface: [state, step, diagnostics]
+fixture_status: consistent

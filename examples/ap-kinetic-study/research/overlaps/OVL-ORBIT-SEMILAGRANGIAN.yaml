@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata: {id: OVL-ORBIT-SEMILAGRANGIAN, title: Variable set agreement, status: active, labels: []}
+spec:
+  left: CTX-ORBIT
+  right: CTX-SEMILAGRANGIAN
+  checks:
+    - id: variable-set
+      type: set_equal
+      left: {file: research/contexts/orbit/state.yaml, pointer: /variables}
+      right: {file: research/contexts/semilagrangian/state.yaml, pointer: /variables}
+  failure_policy: block_gluing

@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-WRITING, title: Manifest-only projection, status: active, labels: [projection]}
+spec:
+  parent: CTX-ROOT
+  question: Which verified fixture records enter each artifact manifest?
+  inputs:
+    contexts: [CTX-MODEL, CTX-ASYMPTOTIC, CTX-ORBIT, CTX-ANALYSIS, CTX-EXPERIMENTS]
+    files: []
+  outputs: [{type: artifact, id: ART-PAPER}, {type: artifact, id: ART-PROPOSAL}]
+  acceptance: [projections remain manifest-only]
+  excluded_scope: [submission-ready prose]

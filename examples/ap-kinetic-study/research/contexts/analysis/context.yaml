@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-ANALYSIS, title: Fixture analysis, status: active, labels: [analysis]}
+spec:
+  parent: CTX-ROOT
+  question: Are the synthetic interface assumptions consistent?
+  inputs:
+    contexts: [CTX-ASYMPTOTIC, CTX-ORBIT, CTX-SEMILAGRANGIAN]
+    files: [research/contexts/analysis/state.yaml]
+  outputs: [{type: derivation, path: research/contexts/analysis/state.yaml}]
+  acceptance: [the declared ordered interface agrees]
+  excluded_scope: [mathematical proof]

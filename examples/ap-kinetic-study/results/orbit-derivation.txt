@@ -1,0 +1,1 @@
+Synthetic fixture: the orbit update targets synthetic-guiding-center-v1.

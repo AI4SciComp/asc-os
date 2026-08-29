@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata: {id: EVD-ORBIT-TEST, title: Synthetic epsilon-case results, status: verified, labels: [synthetic]}
+spec:
+  evidence_type: numerical_test
+  produced_by_run: null
+  sources:
+    - {uri: 'file:results/orbit-limit.json', sha256: '6b19fc498794a55ad17775fcc16e44e9c0e4c510e27634f405a42bd12bd087cc', media_type: application/json, license: CC0-1.0}
+  supports: [CLM-ORBIT-AP]
+  limitations: [three fictional cases, no physical interpretation]

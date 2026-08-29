@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchEvidence
+metadata: {id: EVD-ORBIT-DERIVATION, title: Fictional orbit derivation, status: verified, labels: [synthetic]}
+spec:
+  evidence_type: mathematical_derivation
+  produced_by_run: null
+  sources:
+    - {uri: 'file:results/orbit-derivation.txt', sha256: '77ea37a22529878e1e5e130fa8da8575e371f25cf38a63417e9a854ab2037516', media_type: text/plain, license: CC0-1.0}
+  supports: [CLM-ORBIT-AP]
+  limitations: [illustrative derivation, not a proof]

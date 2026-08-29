@@ -1,0 +1,9 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchArtifact
+metadata: {id: ART-PAPER, title: Paper record projection, status: active, labels: [manifest-only]}
+spec:
+  artifact_type: paper
+  contexts: [CTX-MODEL, CTX-ASYMPTOTIC, CTX-ORBIT, CTX-ANALYSIS, CTX-EXPERIMENTS, CTX-WRITING]
+  claims: [CLM-LIMIT-SYSTEM, CLM-ORBIT-AP]
+  required_evidence_classes: [mathematical_derivation, numerical_test]
+  output_contract: {format: manifest_only, path: build/artifacts/paper-manifest.json}

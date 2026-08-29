@@ -1,0 +1,2 @@
+system_id: synthetic-kinetic-v1
+variables: [x, v, g]

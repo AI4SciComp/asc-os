@@ -1,0 +1,18 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchClaim
+metadata: {id: CLM-LIMIT-SYSTEM, title: Declared fictional limit system, status: verified, labels: [fixture]}
+spec:
+  context: CTX-ASYMPTOTIC
+  statement: Under the fictional assumptions, the declared limit identifier is internally consistent.
+  assumptions: [ASM-SMOOTH, ASM-FIXED-STEP]
+  depends_on: []
+  evidence: [EVD-LIMIT-DERIVATION]
+  projections: {paper: section-limit, proposal: approach-limit}
+  required_evidence_classes: [mathematical_derivation]
+  input_hashes:
+    claim_definition: 838df51b7288a61545789f59cd5865a6007093232a9cd7693bffdabe8e174362
+    evidence-source:results/limit-derivation.txt: 84ba07b3a90e9062165a2fa9f714f8f1c1fb8ecbf8bea4faa0ec76a3642cc1de
+    research/assumptions.yaml: e197e07c5ee03c41692e60cc7c0c893c1290cd6f67139079ac215a6de4abd13d
+    research/contexts/asymptotic/context.yaml: a4f7fda31a9e93494064b2dfb3fd9046c4c5d894879c4747840efa79f15f012a
+    research/evidence/EVD-LIMIT-DERIVATION/manifest.yaml: 14e7c5209860842e0fe1fb1cf97ec17263474bc5bad53974012f7b5205650723
+    research/notation.yaml: 1aa05ec8a18a7254f06498e87cb1b16a9bb83e34bae31761d87b20e1c74c4e12

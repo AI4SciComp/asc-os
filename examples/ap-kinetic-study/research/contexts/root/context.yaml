@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-ROOT, title: Synthetic AP study, status: active, labels: [example]}
+spec:
+  parent: null
+  question: Can a fictional kinetic workflow demonstrate bounded research orchestration?
+  inputs: {contexts: [], files: [research/notation.yaml, research/assumptions.yaml]}
+  outputs: [{type: artifact, id: ART-PAPER}]
+  acceptance: [the declared cover and its required overlaps pass]
+  excluded_scope: [real scientific claims, production solver implementation]
+  permitted_tools: [validate, context-build, overlap-check, glue-manifest]
+  excluded_paths: [private]

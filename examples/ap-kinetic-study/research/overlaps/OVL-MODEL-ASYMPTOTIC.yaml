@@ -1,0 +1,16 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata: {id: OVL-MODEL-ASYMPTOTIC, title: Model identity agreement, status: active, labels: []}
+spec:
+  left: CTX-MODEL
+  right: CTX-ASYMPTOTIC
+  checks:
+    - id: system-id
+      type: value_equal
+      left: {file: research/contexts/model/state.yaml, pointer: /system_id}
+      right: {file: research/contexts/asymptotic/state.yaml, pointer: /source_system_id}
+    - id: notation-hash
+      type: content_hash_equal
+      left: {file: research/notation.yaml}
+      right: {file: research/notation.yaml}
+  failure_policy: block_gluing

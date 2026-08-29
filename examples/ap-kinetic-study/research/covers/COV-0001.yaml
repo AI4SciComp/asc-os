@@ -1,0 +1,15 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchCover
+metadata: {id: COV-0001, title: Synthetic AP workflow cover, status: active, labels: [primary]}
+spec:
+  target: CTX-ROOT
+  members: [CTX-MODEL, CTX-ASYMPTOTIC, CTX-ORBIT, CTX-SEMILAGRANGIAN, CTX-ANALYSIS, CTX-EXPERIMENTS, CTX-WRITING]
+  requirements:
+    model_definition: [CTX-MODEL]
+    limiting_system: [CTX-ASYMPTOTIC]
+    characteristic_tracking: [CTX-ORBIT]
+    remapping: [CTX-SEMILAGRANGIAN]
+    analysis: [CTX-ANALYSIS]
+    numerical_evidence: [CTX-EXPERIMENTS]
+    projection: [CTX-WRITING]
+  required_overlaps: [OVL-MODEL-ASYMPTOTIC, OVL-ASYMPTOTIC-ORBIT, OVL-ORBIT-SEMILAGRANGIAN, OVL-SEMILAGRANGIAN-ANALYSIS, OVL-ANALYSIS-EXPERIMENTS]

@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-ASYMPTOTIC, title: Illustrative limiting system, status: completed, labels: [limit]}
+spec:
+  parent: CTX-ROOT
+  question: What fictional fixed-step limiting system is declared?
+  inputs: {contexts: [CTX-MODEL], files: [research/contexts/asymptotic/state.yaml]}
+  outputs:
+    - {type: derivation, path: research/contexts/asymptotic/state.yaml}
+    - {type: claim, id: CLM-LIMIT-SYSTEM}
+  acceptance: [the model and limit identifiers agree]
+  excluded_scope: [formal convergence proof]

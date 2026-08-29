@@ -1,0 +1,12 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchOverlap
+metadata: {id: OVL-ASYMPTOTIC-ORBIT, title: Deliberate mismatch fixture, status: active, labels: [expected-failure]}
+spec:
+  left: CTX-ASYMPTOTIC
+  right: CTX-ORBIT
+  checks:
+    - id: deliberate-limit-mismatch
+      type: value_equal
+      left: {file: research/contexts/asymptotic/state.yaml, pointer: /limit_system_id}
+      right: {file: expected/mismatched-orbit.yaml, pointer: /target_limit_system_id}
+  failure_policy: block_gluing

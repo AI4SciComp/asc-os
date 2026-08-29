@@ -1,0 +1,9 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchArtifact
+metadata: {id: ART-CODE, title: Code record projection, status: active, labels: [manifest-only]}
+spec:
+  artifact_type: code
+  contexts: [CTX-ORBIT, CTX-SEMILAGRANGIAN, CTX-ANALYSIS]
+  claims: [CLM-ORBIT-AP]
+  required_evidence_classes: [unit_test]
+  output_contract: {format: manifest_only, path: build/artifacts/code-manifest.json}

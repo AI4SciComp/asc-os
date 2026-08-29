@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-MODEL, title: Fictional model definition, status: active, labels: [model]}
+spec:
+  parent: CTX-ROOT
+  question: What synthetic model identity and variables are shared downstream?
+  inputs: {contexts: [], files: [research/contexts/model/state.yaml]}
+  outputs: [{type: model, path: research/contexts/model/state.yaml}]
+  acceptance: [the model identifier resolves in the asymptotic fixture]
+  excluded_scope: [physical calibration]

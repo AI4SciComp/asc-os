@@ -1,0 +1,10 @@
+api_version: ai4scicomp.research/v1
+kind: ResearchContext
+metadata: {id: CTX-SEMILAGRANGIAN, title: Synthetic remapping, status: active, labels: [remap]}
+spec:
+  parent: CTX-ROOT
+  question: Does a fictional remapping fixture preserve the declared variable set?
+  inputs: {contexts: [CTX-ORBIT], files: [research/contexts/semilagrangian/state.yaml]}
+  outputs: [{type: derivation, path: research/contexts/semilagrangian/state.yaml}]
+  acceptance: [the ordered interface agrees with analysis]
+  excluded_scope: [production discretization]
