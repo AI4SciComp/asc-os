@@ -40,6 +40,7 @@ def confined_path(
     value: str | Path,
     *,
     must_exist: bool = False,
+    reject_symlinks: bool = False,
 ) -> Path:
     """Resolve a project-relative path and prove it stays under ``root``.
 
@@ -47,6 +48,8 @@ def confined_path(
         root: Trusted project root.
         value: Untrusted project-relative path.
         must_exist: Whether the result must already exist.
+        reject_symlinks: Whether any existing path component must be a normal
+            file or directory rather than a symbolic link.
 
     Returns:
         A normalized absolute path within ``root``.
@@ -59,7 +62,16 @@ def confined_path(
     raw = Path(value)
     if raw.is_absolute() or ".." in PurePath(raw).parts:
         raise _unsafe(value, "Use a project-relative path without '..'.")
-    resolved_root = root.resolve(strict=True)
+    resolved_root = root.resolve(strict=root.exists())
+    if reject_symlinks:
+        lexical = root.absolute()
+        for part in raw.parts:
+            lexical /= part
+            if lexical.is_symlink():
+                raise _unsafe(
+                    value,
+                    "Do not use symbolic links in a filesystem output path.",
+                )
     joined = resolved_root / raw
     try:
         resolved = joined.resolve(strict=must_exist)
