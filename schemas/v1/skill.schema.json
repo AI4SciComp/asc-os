@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.ai4scicomp.org/research/v1/skill.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["api_version", "kind", "metadata", "spec"],
+  "properties": {
+    "api_version": {"const": "ai4scicomp.research/v1"},
+    "kind": {"const": "ResearchSkill"},
+    "metadata": {"$ref": "common.schema.json#/$defs/metadata"},
+    "spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "capabilities", "required_context_fields", "input_schema", "output_schema", "execution"],
+      "properties": {
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "capabilities": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "required_context_fields": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "input_schema": {"$ref": "common.schema.json#/$defs/relativePath"},
+        "output_schema": {"$ref": "common.schema.json#/$defs/relativePath"},
+        "execution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "trusted"],
+          "properties": {"mode": {"const": "external"}, "trusted": {"const": false}}
+        }
+      }
+    }
+  }
+}
+
