@@ -85,3 +85,7 @@ class ContextBuildError(AscOSError):
 
 class LifecycleError(AscOSError):
     """Raised for invalid or conflicting lifecycle operations."""
+
+
+class CompatibilityError(AscOSError):
+    """Raised when glue or projection prerequisites do not pass."""

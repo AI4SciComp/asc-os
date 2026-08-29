@@ -323,6 +323,15 @@ def scan_staleness(project_path: str | Path) -> StalenessReport:
         for path in sorted(generated.glob("*/context.json")):
             if _context_bundle_is_stale(state, path):
                 stale.add(relative_posix(state.root, path.parent))
+    for derived_root in (
+        state.root / ".ai" / "generated",
+        state.root / "build",
+    ):
+        if not derived_root.is_dir():
+            continue
+        for path in sorted(derived_root.rglob("*.json")):
+            if path.name != "context.json" and _manifest_is_stale(state, path):
+                stale.add(relative_posix(state.root, path))
     return StalenessReport(
         tuple(sorted(stale)),
         decision_invalidation(state.root),
@@ -521,6 +530,44 @@ def _context_bundle_is_stale(  # noqa: PLR0911
         return True
     recorded_decisions = {cast(str, item["id"]) for item in decisions}
     return current_decisions != recorded_decisions
+
+
+def _manifest_is_stale(  # noqa: PLR0911
+    state: ProjectState,
+    path: Path,
+) -> bool:
+    try:
+        payload = path.read_bytes()
+        if len(payload) > _MAX_DERIVED_BYTES:
+            return True
+        parsed: object = json.loads(payload.decode("utf-8", errors="strict"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return True
+    if not isinstance(parsed, dict):
+        return False
+    document = cast(dict[str, Any], parsed)
+    raw_hashes = document.get("material_hashes")
+    if not isinstance(raw_hashes, Mapping):
+        return False
+    hashes = cast(Mapping[str, Any], raw_hashes)
+    raw_metadata = document.get("_asc_os")
+    if not isinstance(raw_metadata, Mapping):
+        return True
+    metadata = cast(Mapping[str, Any], raw_metadata)
+    source_hash = metadata.get("source_sha256")
+    body = {key: value for key, value in document.items() if key != "_asc_os"}
+    if not isinstance(source_hash, str) or content_hash(body) != source_hash:
+        return True
+    for relative, expected in hashes.items():
+        if not isinstance(expected, str):
+            return True
+        try:
+            source_path = confined_path(state.root, relative, must_exist=True)
+        except UnsafePathError:
+            return True
+        if file_hash(source_path) != expected:
+            return True
+    return False
 
 
 def _mapping(value: object) -> Mapping[str, Any]:
