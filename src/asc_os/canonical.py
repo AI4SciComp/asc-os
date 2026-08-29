@@ -78,9 +78,11 @@ def canonical_data(  # noqa: PLR0911
         if field in _SET_LIKE_KEYS:
             return sorted(normalized, key=canonical_json)
         return normalized
+    if isinstance(value, str):
+        return value.replace("\r\n", "\n").replace("\r", "\n")
     if isinstance(value, float) and not math.isfinite(value):
         raise ValueError("Canonical JSON does not permit non-finite numbers")
-    if value is None or isinstance(value, (str, int, float, bool)):
+    if value is None or isinstance(value, (int, float, bool)):
         return value
     raise TypeError(f"Unsupported canonical value: {type(value).__name__}")
 

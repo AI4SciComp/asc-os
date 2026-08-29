@@ -60,6 +60,12 @@ def test_nonstring_mapping_key_is_rejected() -> None:
         canonical_json({1: "value"})
 
 
+def test_line_endings_are_normalized() -> None:
+    assert canonical_json({"text": "one\r\ntwo\rthree"}) == (
+        '{"text":"one\\ntwo\\nthree"}'
+    )
+
+
 _JSON_SCALARS = st.none() | st.booleans() | st.integers() | st.text()
 _JSON_VALUES = st.recursive(
     _JSON_SCALARS,

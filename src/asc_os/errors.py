@@ -77,3 +77,7 @@ class UnsafePathError(AscOSError):
 
 class WriteConflictError(AscOSError):
     """Raised when a safe write cannot acquire ownership or a lock."""
+
+
+class ContextBuildError(AscOSError):
+    """Raised when a deterministic context bundle cannot be constructed."""
