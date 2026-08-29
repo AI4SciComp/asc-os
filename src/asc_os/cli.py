@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import re
 import shutil
 import sys
 from collections.abc import Callable, Mapping, Sequence
@@ -28,6 +29,13 @@ from asc_os.scaffold import init_project, scaffold_manifest
 from asc_os.skills import validate_skill
 from asc_os.verification import check_cover, check_overlap
 from asc_os.version import __version__
+
+_SECRET_SHAPES = (
+    re.compile(r"gh[pousr]_[A-Za-z0-9]{20,}"),
+    re.compile(r"AKIA[0-9A-Z]{16}"),
+)
+_CONTROL_BOUNDARY = 32
+_DELETE_CHARACTER = 127
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -574,13 +582,37 @@ def _emit(
 
 
 def _emit_error(detail: ErrorDetail, json_mode: bool) -> None:
-    data = {"error": canonical_data(detail)}
+    safe = ErrorDetail(
+        code=_safe_diagnostic(detail.code),
+        message=_safe_diagnostic(detail.message),
+        path=(
+            _safe_diagnostic(detail.path) if detail.path is not None else None
+        ),
+        hint=(
+            _safe_diagnostic(detail.hint) if detail.hint is not None else None
+        ),
+    )
+    data = {"error": canonical_data(safe)}
     if json_mode:
         print(canonical_json(data))
     else:
-        print(f"{detail.code}: {detail.message}", file=sys.stderr)
-        if detail.hint:
-            print(f"hint: {detail.hint}", file=sys.stderr)
+        print(f"{safe.code}: {safe.message}", file=sys.stderr)
+        if safe.hint:
+            print(f"hint: {safe.hint}", file=sys.stderr)
+
+
+def _safe_diagnostic(value: str) -> str:
+    """Escape control characters and redact common secret-shaped values."""
+    escaped = "".join(
+        character
+        if ord(character) >= _CONTROL_BOUNDARY
+        and ord(character) != _DELETE_CHARACTER
+        else f"\\x{ord(character):02x}"
+        for character in value
+    )
+    for pattern in _SECRET_SHAPES:
+        escaped = pattern.sub("[REDACTED]", escaped)
+    return escaped
 
 
 def _manifest_text(item: Manifest) -> str:

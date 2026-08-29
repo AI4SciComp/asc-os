@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import tempfile
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
@@ -13,6 +14,11 @@ from typing import cast
 from asc_os.canonical import file_hash
 from asc_os.errors import ErrorDetail, ExitCode, WriteConflictError
 from asc_os.paths import confined_path
+
+_SOURCE_HASH = re.compile(r"^[0-9a-f]{64}$")
+_MARKDOWN_OWNERSHIP = re.compile(
+    r"^<!-- generated-by: asc-os; source-sha256: ([0-9a-f]{64}) -->$"
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -176,14 +182,15 @@ def _effective_plan(plan: WritePlan) -> WritePlan:
             directories.append(directory)
     seen: set[str] = set()
     for item in sorted(plan.writes, key=lambda entry: entry.path):
-        if item.path in seen:
+        portable_key = item.path.replace("\\", "/").casefold()
+        if portable_key in seen:
             raise _conflict(
                 "duplicate_write",
-                "The write plan contains the same path twice.",
+                "The write plan contains a portable path collision.",
                 root / item.path,
-                "Generate a plan with unique destinations.",
+                "Use destinations that differ on case-insensitive systems.",
             )
-        seen.add(item.path)
+        seen.add(portable_key)
         destination = confined_path(root, item.path, reject_symlinks=True)
         encoded = item.content.encode("utf-8")
         if destination.exists():
@@ -226,7 +233,8 @@ def _owned_generated(path: Path) -> bool:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError):
         return False
-    if text.startswith("<!-- generated-by: asc-os; source-sha256: "):
+    first_line = text.splitlines()[0] if text else ""
+    if _MARKDOWN_OWNERSHIP.fullmatch(first_line):
         return True
     try:
         parsed: object = json.loads(text)
@@ -239,8 +247,12 @@ def _owned_generated(path: Path) -> bool:
     if not isinstance(metadata, dict):
         return False
     owned = cast(dict[object, object], metadata)
-    return owned.get("generator") == "asc-os" and isinstance(
-        owned.get("source_sha256"), str
+    source_hash = owned.get("source_sha256")
+    return (
+        owned.get("generator") == "asc-os"
+        and owned.get("generator_version") == "0.1.0.dev0"
+        and isinstance(source_hash, str)
+        and _SOURCE_HASH.fullmatch(source_hash) is not None
     )
 
 

@@ -25,6 +25,7 @@ from asc_os.paths import confined_path, find_project_root, relative_posix
 API_VERSION = "ai4scicomp.research/v1"
 MAX_MANIFEST_BYTES = 2 * 1024 * 1024
 MAX_YAML_DEPTH = 64
+_CONTROL_BOUNDARY = 32
 
 KIND_SCHEMA: Mapping[str, str] = {
     "ResearchProject": "project.schema.json",
@@ -296,9 +297,10 @@ def load_yaml(path: Path, *, max_bytes: int = MAX_MANIFEST_BYTES) -> Any:
         )
     try:
         text = payload.decode("utf-8", errors="strict")
+        _reject_control_characters(text)
         # The loader inherits SafeLoader and exposes no unsafe constructors.
         return yaml.load(text, Loader=_StrictSafeLoader)  # noqa: S506
-    except (UnicodeDecodeError, yaml.YAMLError) as error:
+    except (UnicodeDecodeError, ValueError, yaml.YAMLError) as error:
         raise ManifestError(
             ErrorDetail(
                 code="unsafe_or_invalid_yaml",
@@ -310,6 +312,15 @@ def load_yaml(path: Path, *, max_bytes: int = MAX_MANIFEST_BYTES) -> Any:
             ),
             ExitCode.SCHEMA_INVALID,
         ) from error
+
+
+def _reject_control_characters(text: str) -> None:
+    """Reject terminal and record controls while retaining YAML whitespace."""
+    if any(
+        ord(character) < _CONTROL_BOUNDARY and character not in "\t\n\r"
+        for character in text
+    ):
+        raise ValueError("YAML contains a disallowed control character")
 
 
 def load_manifest(path: Path, catalog: SchemaCatalog | None = None) -> Manifest:

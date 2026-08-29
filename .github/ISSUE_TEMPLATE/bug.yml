@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a reproducible ASC OS defect.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include credentials, unpublished research, or private data.
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: Include sanitized diagnostics and stable exit codes.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: ASC OS and Python versions
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Security or generated-file impact
+    validations:
+      required: true
