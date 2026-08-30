@@ -342,7 +342,7 @@ def _write_manifest(
     document = {
         "_asc_os": {
             "generator": "asc-os",
-            "generator_version": "0.1.0.dev0",
+            "generator_version": "0.1.0",
             "source_sha256": source_hash,
         },
         **body,
