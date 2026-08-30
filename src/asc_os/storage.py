@@ -157,7 +157,7 @@ def generated_json_metadata(source_hash: str) -> dict[str, str]:
     """Return standard JSON generated-file ownership metadata."""
     return {
         "generator": "asc-os",
-        "generator_version": "0.1.0.dev0",
+        "generator_version": "0.1.0",
         "source_sha256": source_hash,
     }
 
@@ -250,7 +250,7 @@ def _owned_generated(path: Path) -> bool:
     source_hash = owned.get("source_sha256")
     return (
         owned.get("generator") == "asc-os"
-        and owned.get("generator_version") == "0.1.0.dev0"
+        and owned.get("generator_version") == "0.1.0"
         and isinstance(source_hash, str)
         and _SOURCE_HASH.fullmatch(source_hash) is not None
     )

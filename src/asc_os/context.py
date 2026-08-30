@@ -626,7 +626,7 @@ def _enforce_size(writes: list[PlannedWrite], max_bytes: int) -> None:
 def _ownership(source_hash: str) -> dict[str, str]:
     return {
         "generator": "asc-os",
-        "generator_version": "0.1.0.dev0",
+        "generator_version": "0.1.0",
         "source_sha256": source_hash,
     }
 

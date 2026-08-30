@@ -3,7 +3,7 @@
 project = "ASC OS"
 copyright = "2026, AI4SciComp"  # noqa: A001
 author = "AI4SciComp contributors"
-release = "0.1.0.dev0"
+release = "0.1.0"
 extensions = ["myst_parser", "sphinx.ext.autodoc", "sphinx.ext.doctest"]
 source_suffix = {".md": "markdown"}
 exclude_patterns = ["_build"]

@@ -47,5 +47,5 @@ See [architecture](docs/architecture/overview.md),
 [CLI reference](docs/reference/cli.md), [MCP guide](docs/guides/mcp.md),
 [security policy](SECURITY.md), and [contributing guide](CONTRIBUTING.md).
 
-License: Apache-2.0. No release or package publication is performed by this
-development branch.
+License: Apache-2.0. This release-candidate branch does not create a tag,
+GitHub release, or package publication.
