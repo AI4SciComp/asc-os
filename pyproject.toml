@@ -41,7 +41,7 @@ Repository = "https://github.com/AI4SciComp/asc-os"
 [dependency-groups]
 dev = [
   "build==1.6.0",
-  "hypothesis==6.165.10",
+  "hypothesis==6.167.1",
   "pip-audit==2.10.1",
   "pylint==4.0.8",
   "pyright==1.1.411",
