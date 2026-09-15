@@ -43,7 +43,7 @@ dev = [
   "hypothesis==6.165.10",
   "pip-audit==2.10.1",
   "pylint==4.0.8",
-  "pyright==1.1.411",
+  "pyright==1.1.414",
   "pytest==9.1.1",
   "pytest-cov==7.1.0",
   "ruff==0.16.5",
