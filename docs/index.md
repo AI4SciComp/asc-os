@@ -20,7 +20,9 @@ concepts/restrictions
 concepts/overlaps
 concepts/claims-and-evidence
 concepts/gluing-and-projections
+guides/installation
 guides/quickstart
+guides/releases
 guides/codex
 guides/claude-code
 guides/mcp

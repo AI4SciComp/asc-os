@@ -14,6 +14,7 @@ from asc_os.paths import confined_path, relative_posix
 from asc_os.provenance import check_claim, scan_staleness
 from asc_os.storage import PlannedWrite, WritePlan, apply_plan
 from asc_os.verification import CheckOutcome, check_cover, check_overlap
+from asc_os.version import __version__
 
 _READY_CONTEXT_STATUSES = frozenset({"active", "completed"})
 
@@ -342,7 +343,7 @@ def _write_manifest(
     document = {
         "_asc_os": {
             "generator": "asc-os",
-            "generator_version": "0.1.0",
+            "generator_version": __version__,
             "source_sha256": source_hash,
         },
         **body,

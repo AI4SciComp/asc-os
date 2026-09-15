@@ -1,9 +1,14 @@
 # MCP guide
 
-Install the optional SDK extra, then start one explicit project root:
+From the ASC OS checkout, [install](installation.md) the optional SDK extra:
 
 ```console
-pip install 'asc-os[mcp]'
+uv tool install --python 3.12 '.[mcp]'
+```
+
+Then start one explicit project root from any directory:
+
+```console
 asc-os mcp serve --transport stdio --project /absolute/project/root
 ```
 

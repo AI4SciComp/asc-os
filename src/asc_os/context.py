@@ -22,6 +22,7 @@ from asc_os.errors import ContextBuildError, ErrorDetail, ExitCode
 from asc_os.manifest import Manifest, ProjectState, load_project_state
 from asc_os.paths import confined_path, relative_posix
 from asc_os.storage import PlannedWrite, WritePlan, apply_plan, generated_marker
+from asc_os.version import __version__
 
 Harness = Literal["common", "codex", "claude"]
 OutputFormat = Literal["json", "markdown"]
@@ -626,7 +627,7 @@ def _enforce_size(writes: list[PlannedWrite], max_bytes: int) -> None:
 def _ownership(source_hash: str) -> dict[str, str]:
     return {
         "generator": "asc-os",
-        "generator_version": "0.1.0",
+        "generator_version": __version__,
         "source_sha256": source_hash,
     }
 

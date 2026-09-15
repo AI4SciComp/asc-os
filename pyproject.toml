@@ -12,8 +12,7 @@ license = "Apache-2.0"
 authors = [{name = "AI4SciComp"}]
 keywords = ["research", "provenance", "mcp", "reproducibility"]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
-  "License :: OSI Approved :: Apache Software License",
+  "Development Status :: 3 - Alpha",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -71,6 +70,7 @@ templates = "asc_os/templates"
 [tool.hatch.build.targets.sdist]
 include = [
   "/.github",
+  "/AGENTS.md",
   "/CHANGELOG.md",
   "/CITATION.cff",
   "/CODE_OF_CONDUCT.md",
@@ -84,6 +84,8 @@ include = [
   "/docs",
   "/examples",
   "/scripts",
+  "/tests",
+  "/uv.lock",
   "/README.md",
   "/LICENSE",
   "/THIRD_PARTY_NOTICES.md",

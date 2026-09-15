@@ -3,6 +3,13 @@
 The installed command is `asc-os`. All inspection commands support stable text
 output, and commands marked with `--json` emit canonical compact JSON.
 
+Follow the [installation guide](../guides/installation.md) to add `asc-os` to
+your PATH. Commands operate on the current research project, discovering
+`research/project.yaml` in the current directory or its ancestors. `init`
+accepts a destination path; `validate` accepts an optional project path; MCP
+requires an explicit `--project` root. The ASC OS checkout is not required at
+runtime after a non-editable installation.
+
 | Command family | Purpose |
 | --- | --- |
 | `doctor` | Report the local Python, Git, uv, MCP, and transport state. |
