@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-mcp = ["mcp==2.1.1"]
+mcp = ["mcp==2.2.0"]
 
 [project.scripts]
 asc-os = "asc_os.cli:main"
