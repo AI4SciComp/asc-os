@@ -22,6 +22,7 @@ from asc_os.projection import (
 )
 from asc_os.provenance import scan_staleness
 from asc_os.scaffold import init_project, scaffold_manifest
+from asc_os.version import __version__
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -98,6 +99,7 @@ def test_glue_check_and_manifest_are_deterministic(tmp_path: Path) -> None:
     assert (root / "build" / "glue" / "COV-ONE.json").read_bytes() == payload
     document = cast(dict[str, Any], json.loads(payload))
     assert document["kind"] == "GluingManifest"
+    assert document["_asc_os"]["generator_version"] == __version__
     assert "merge" not in document
 
 
@@ -152,6 +154,7 @@ def test_artifact_projection_is_manifest_only(tmp_path: Path) -> None:
     )
     assert operation.record_id == "ART-PAPER"
     assert document["kind"] == "ArtifactProjectionManifest"
+    assert document["_asc_os"]["generator_version"] == __version__
     assert document["output_contract"]["format"] == "manifest_only"
     assert not (root / "build" / "artifacts" / "paper.md").exists()
 

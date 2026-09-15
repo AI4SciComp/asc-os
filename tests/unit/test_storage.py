@@ -1,5 +1,6 @@
 """Tests for dry-run planning, ownership, locks, and atomic writes."""
 
+import json
 from pathlib import Path
 
 import pytest
@@ -10,8 +11,10 @@ from asc_os.storage import (
     ProjectLock,
     WritePlan,
     apply_plan,
+    generated_json_metadata,
     generated_marker,
 )
+from asc_os.version import __version__
 
 
 def test_dry_run_does_not_create_project(tmp_path: Path) -> None:
@@ -89,6 +92,100 @@ def test_existing_lock_blocks_second_writer(tmp_path: Path) -> None:
     ):
         pytest.fail("the second lock must not be acquired")
     assert caught.value.detail.code == "project_locked"
+
+
+@pytest.mark.parametrize("payload", (b"\xff", b"[]", b"{}", b"", b"null"))
+def test_force_preserves_files_without_valid_ownership(
+    tmp_path: Path, payload: bytes
+) -> None:
+    destination = tmp_path / "bundle.json"
+    destination.write_bytes(payload)
+    plan = WritePlan(
+        tmp_path,
+        (),
+        (
+            PlannedWrite(
+                "bundle.json",
+                "replacement\n",
+                generated=True,
+                allow_replace_owned=True,
+            ),
+        ),
+    )
+    with pytest.raises(WriteConflictError):
+        apply_plan(plan)
+    assert destination.read_bytes() == payload
+
+
+@pytest.mark.parametrize("directory", (False, True))
+def test_plan_rejects_file_directory_collisions(
+    tmp_path: Path, directory: bool
+) -> None:
+    destination = tmp_path / "occupied"
+    if directory:
+        destination.mkdir()
+        plan = WritePlan(tmp_path, (), (PlannedWrite("occupied", "file"),))
+    else:
+        destination.write_text("file", encoding="utf-8")
+        plan = WritePlan(tmp_path, ("occupied",), ())
+    with pytest.raises(WriteConflictError):
+        apply_plan(plan)
+    assert destination.is_dir() is directory
+
+
+def test_invalid_project_roots_are_rejected(tmp_path: Path) -> None:
+    with pytest.raises(WriteConflictError, match="filesystem root"):
+        apply_plan(WritePlan(Path(tmp_path.anchor), (), ()))
+    occupied = tmp_path / "file"
+    occupied.write_text("human", encoding="utf-8")
+    with pytest.raises(WriteConflictError, match="occupied by a file"):
+        apply_plan(WritePlan(occupied, (), ()))
+    assert occupied.read_text(encoding="utf-8") == "human"
+
+
+@pytest.mark.parametrize(
+    ("version", "recognized"),
+    (
+        (__version__, True),
+        ("0.1.0.dev0", True),
+        ("99.0.0", False),
+        (None, False),
+        ([__version__], False),
+    ),
+)
+def test_json_ownership_across_installation_upgrades(
+    tmp_path: Path, version: object, recognized: bool
+) -> None:
+    digest = "a" * 64
+    metadata = generated_json_metadata(digest)
+    assert metadata["generator_version"] == __version__
+    destination = tmp_path / "bundle.json"
+    previous = json.dumps(
+        {"_asc_os": {**metadata, "generator_version": version}, "value": "old"}
+    )
+    destination.write_text(previous, encoding="utf-8")
+    replacement = json.dumps({"_asc_os": metadata, "value": "new"})
+    for force in (False, True):
+        plan = WritePlan(
+            tmp_path,
+            (),
+            (
+                PlannedWrite(
+                    "bundle.json",
+                    replacement,
+                    generated=True,
+                    source_hash=digest,
+                    allow_replace_owned=force,
+                ),
+            ),
+        )
+        if recognized and force:
+            apply_plan(plan)
+            assert destination.read_text(encoding="utf-8") == replacement
+        else:
+            with pytest.raises(WriteConflictError):
+                apply_plan(plan)
+            assert destination.read_text(encoding="utf-8") == previous
 
 
 def test_failed_atomic_replacement_preserves_previous_file(

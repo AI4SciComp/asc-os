@@ -11,6 +11,7 @@ from asc_os.paths import confined_path, find_project_root
 def test_find_project_root_from_descendant(minimal_project: Path) -> None:
     descendant = minimal_project / "research" / "contexts" / "root"
     assert find_project_root(descendant) == minimal_project
+    assert find_project_root(descendant / "context.yaml") == minimal_project
 
 
 def test_find_project_root_rejects_uninitialized(tmp_path: Path) -> None:

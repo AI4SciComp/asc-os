@@ -1,7 +1,10 @@
-.PHONY: sync format format-check lint typecheck test security-test examples docs linkcheck build check
+.PHONY: sync install format format-check lint typecheck test security-test examples docs linkcheck build package-test check
 
 sync:
 	uv sync --frozen --all-groups --all-extras
+
+install:
+	uv tool install --python 3.12 .
 
 format:
 	uv run ruff format .
@@ -19,6 +22,7 @@ typecheck:
 
 test:
 	uv run pytest --cov=asc_os --cov-branch --cov-report=term-missing --cov-report=xml
+	uv run python scripts/check_coverage.py
 
 security-test:
 	uv run pytest tests/security tests/unit/test_manifest.py tests/unit/test_paths.py tests/unit/test_storage.py tests/integration/test_mcp.py tests/integration/test_provenance.py tests/integration/test_skills.py tests/integration/test_verification.py
@@ -39,6 +43,9 @@ linkcheck:
 build:
 	uv run python -m build
 	uv run python -m twine check dist/*
+
+package-test: build
+	uv run python scripts/check_package.py
 
 check:
 	uv run python scripts/check_repository.py

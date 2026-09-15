@@ -9,19 +9,36 @@ LLM provider, proof assistant, or autonomous shell agent.
 The v0.1 implementation is Python-only and model-agnostic. Authored YAML under
 `research/` remains canonical; generated bundles are reproducible projections.
 
-## Install for development
+## Install the command
 
-Python 3.12 through 3.14 is supported.
+Python 3.12 through 3.14 and [uv](https://docs.astral.sh/uv/) are supported.
+Install the wheel from the
+[v0.1.0 GitHub release](https://github.com/AI4SciComp/asc-os/releases/tag/v0.1.0)
+once into an isolated user tool environment:
+
+```console
+uv tool install --python 3.12 https://github.com/AI4SciComp/asc-os/releases/download/v0.1.0/asc_os-0.1.0-py3-none-any.whl
+asc-os --version
+asc-os doctor --json
+```
+
+You can then run `asc-os` from any directory without activating a virtual
+environment. If the command is missing from PATH, run `uv tool update-shell`
+and open a new terminal.
+
+To install from this checkout, use `uv tool install --python 3.12 .`, or
+`uv tool install --python 3.12 '.[mcp]'` for the optional local stdio MCP server.
+The base distribution has no MCP dependency. See the
+[installation guide](docs/guides/installation.md) for MCP installation from
+GitHub, updates, and removal.
+
+## Develop ASC OS
 
 ```console
 uv sync --frozen --all-groups --all-extras
 uv run asc-os --version
 uv run asc-os doctor --json
 ```
-
-The base distribution has no MCP dependency. Install the optional official
-SDK surface with `pip install 'asc-os[mcp]'`; the server remains local stdio
-only.
 
 ## Quick start
 
@@ -47,5 +64,6 @@ See [architecture](docs/architecture/overview.md),
 [CLI reference](docs/reference/cli.md), [MCP guide](docs/guides/mcp.md),
 [security policy](SECURITY.md), and [contributing guide](CONTRIBUTING.md).
 
-License: Apache-2.0. This release-candidate branch does not create a tag,
-GitHub release, or package publication.
+License: Apache-2.0. See the [release guide](docs/guides/releases.md) for local
+release preparation and validation. Publication requires explicit maintainer
+authorization under the repository policy.

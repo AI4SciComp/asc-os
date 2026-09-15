@@ -9,6 +9,7 @@ from typing import Any, cast
 import pytest
 import yaml
 
+from asc_os.api import validate_project
 from asc_os.context import build_context
 from asc_os.errors import UnsafePathError
 from asc_os.provenance import (
@@ -127,6 +128,22 @@ def test_required_evidence_class_is_enforced(tmp_path: Path) -> None:
     )
     assert not outcome.passed
     assert outcome.message == "Missing evidence classes: benchmark"
+
+
+def test_project_validation_reports_claim_policy_failure(
+    tmp_path: Path,
+) -> None:
+    root = _verified_claim_project(tmp_path)
+    claim_path = root / "research/claims/CLM-ONE.yaml"
+    claim = _load_document(claim_path)
+    claim["spec"]["required_evidence_classes"] = ["benchmark"]
+    _write_document(claim_path, claim)
+    claim["spec"]["input_hashes"] = expected_claim_input_hashes(root, "CLM-ONE")
+    _write_document(claim_path, claim)
+    report = validate_project(root)
+    assert not report.valid
+    assert report.exit_code == 11
+    assert report.errors[0]["code"] == "claim_evidence_policy_failed"
 
 
 def test_external_evidence_is_recorded_but_never_fetched(

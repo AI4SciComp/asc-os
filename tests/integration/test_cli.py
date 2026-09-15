@@ -183,6 +183,7 @@ def test_compatibility_and_stale_exit_codes(
     )
     monkeypatch.chdir(root)
     assert cli.main(["overlap", "check", "OVL-ONE", "--json"]) == 6
+    assert cli.main(["validate", "--json"]) == 6
     overlap.write_text(
         overlap.read_text(encoding="utf-8").replace(
             "research/missing.yaml",

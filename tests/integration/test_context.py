@@ -11,9 +11,15 @@ from typing import Any, cast
 
 import pytest
 
-from asc_os.context import ContextBuildResult, Harness, build_context
+from asc_os.context import (
+    ContextBuildResult,
+    Harness,
+    OutputFormat,
+    build_context,
+)
 from asc_os.errors import ContextBuildError, WriteConflictError
 from asc_os.scaffold import init_project, scaffold_manifest
+from asc_os.version import __version__
 
 
 def _planned_content(result: ContextBuildResult, path: str) -> str:
@@ -58,6 +64,10 @@ def test_codex_bundle_is_byte_reproducible(tmp_path: Path) -> None:
     assert second.plan.is_noop
     assert _generated_files(root) == first_bytes
     assert second.source_hash == first.source_hash
+    for name, content in first_bytes.items():
+        if name.endswith(".json"):
+            document = cast(dict[str, Any], json.loads(content))
+            assert document["_asc_os"]["generator_version"] == __version__
 
 
 def test_changed_input_requires_force_for_owned_output(tmp_path: Path) -> None:
@@ -207,6 +217,22 @@ def test_invalid_harness_and_oversize_bundle_fail(tmp_path: Path) -> None:
         build_context(root, "CTX-ROOT", max_bytes=10, dry_run=True)
     assert oversize.value.detail.code == "context_size_exceeded"
     assert "content was not truncated" in cast(str, oversize.value.detail.hint)
+
+
+def test_invalid_build_options_do_not_write(tmp_path: Path) -> None:
+    init_project(tmp_path)
+    with pytest.raises(ContextBuildError) as invalid_format:
+        build_context(
+            tmp_path, "CTX-ROOT", output_format=cast(OutputFormat, "x")
+        )
+    assert invalid_format.value.detail.code == "unsupported_context_format"
+    with pytest.raises(ContextBuildError) as invalid_size:
+        build_context(tmp_path, "CTX-ROOT", max_bytes=0)
+    assert invalid_size.value.detail.code == "invalid_max_bytes"
+    with pytest.raises(ContextBuildError) as invalid_entrypoint:
+        build_context(tmp_path, "CTX-ROOT", install_entrypoint=True)
+    assert invalid_entrypoint.value.detail.code == "entrypoint_requires_harness"
+    assert not any((tmp_path / ".ai/generated").rglob("*.json"))
 
 
 def test_git_dirty_state_ignores_generated_bundle(tmp_path: Path) -> None:

@@ -14,6 +14,7 @@ from typing import cast
 from asc_os.canonical import file_hash
 from asc_os.errors import ErrorDetail, ExitCode, WriteConflictError
 from asc_os.paths import confined_path
+from asc_os.version import __version__
 
 _SOURCE_HASH = re.compile(r"^[0-9a-f]{64}$")
 _MARKDOWN_OWNERSHIP = re.compile(
@@ -157,7 +158,7 @@ def generated_json_metadata(source_hash: str) -> dict[str, str]:
     """Return standard JSON generated-file ownership metadata."""
     return {
         "generator": "asc-os",
-        "generator_version": "0.1.0",
+        "generator_version": __version__,
         "source_sha256": source_hash,
     }
 
@@ -250,7 +251,7 @@ def _owned_generated(path: Path) -> bool:
     source_hash = owned.get("source_sha256")
     return (
         owned.get("generator") == "asc-os"
-        and owned.get("generator_version") == "0.1.0"
+        and owned.get("generator_version") in ("0.1.0.dev0", __version__)
         and isinstance(source_hash, str)
         and _SOURCE_HASH.fullmatch(source_hash) is not None
     )
