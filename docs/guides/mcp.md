@@ -1,9 +1,9 @@
 # MCP guide
 
-From the ASC OS checkout, [install](installation.md) the optional SDK extra:
+[Install](installation.md) the optional SDK extra from the GitHub release:
 
 ```console
-uv tool install --python 3.12 '.[mcp]'
+uv tool install --python 3.12 'asc-os[mcp] @ https://github.com/AI4SciComp/asc-os/releases/download/v0.1.0/asc_os-0.1.0-py3-none-any.whl'
 ```
 
 Then start one explicit project root from any directory:

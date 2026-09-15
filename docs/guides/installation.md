@@ -3,6 +3,26 @@
 ASC OS supports Python 3.12 through 3.14. Install
 [uv](https://docs.astral.sh/uv/getting-started/installation/) first.
 
+## Install the GitHub release
+
+Install the wheel directly from
+[GitHub Releases](https://github.com/AI4SciComp/asc-os/releases/tag/v0.1.0):
+
+```console
+uv tool install --python 3.12 https://github.com/AI4SciComp/asc-os/releases/download/v0.1.0/asc_os-0.1.0-py3-none-any.whl
+```
+
+For the optional local stdio MCP server, use the named requirement with its
+extra:
+
+```console
+uv tool install --python 3.12 'asc-os[mcp] @ https://github.com/AI4SciComp/asc-os/releases/download/v0.1.0/asc_os-0.1.0-py3-none-any.whl'
+```
+
+If `asc-os` is not found, run `uv tool update-shell` and open a new terminal.
+You can then use `asc-os` from any directory. This installation needs no source
+checkout. The release also includes a source archive for building locally.
+
 ## Install from a checkout
 
 Run once from the ASC OS checkout:
@@ -69,7 +89,9 @@ These commands do not require ASC OS to be published on PyPI.
 
 ## Update or remove
 
-After updating the checkout, reinstall from its root:
+For a GitHub installation, run the release installation command again with the
+new version's wheel URL. After updating a local checkout, reinstall from its
+root:
 
 ```console
 uv tool install --reinstall --python 3.12 .

@@ -12,23 +12,25 @@ The v0.1 implementation is Python-only and model-agnostic. Authored YAML under
 ## Install the command
 
 Python 3.12 through 3.14 and [uv](https://docs.astral.sh/uv/) are supported.
-From this checkout, install ASC OS once into an isolated user tool environment:
+Install the wheel from the
+[v0.1.0 GitHub release](https://github.com/AI4SciComp/asc-os/releases/tag/v0.1.0)
+once into an isolated user tool environment:
 
 ```console
-uv tool install --python 3.12 .
+uv tool install --python 3.12 https://github.com/AI4SciComp/asc-os/releases/download/v0.1.0/asc_os-0.1.0-py3-none-any.whl
 asc-os --version
 asc-os doctor --json
 ```
 
 You can then run `asc-os` from any directory without activating a virtual
 environment. If the command is missing from PATH, run `uv tool update-shell`
-and open a new terminal. From another directory, replace `.` with the absolute
-path to this checkout.
+and open a new terminal.
 
-For the optional local stdio MCP server, install with
-`uv tool install --python 3.12 '.[mcp]'`. The base distribution has no MCP
-dependency. See the [installation guide](docs/guides/installation.md) for
-wheel installation, updates, and removal.
+To install from this checkout, use `uv tool install --python 3.12 .`, or
+`uv tool install --python 3.12 '.[mcp]'` for the optional local stdio MCP server.
+The base distribution has no MCP dependency. See the
+[installation guide](docs/guides/installation.md) for MCP installation from
+GitHub, updates, and removal.
 
 ## Develop ASC OS
 

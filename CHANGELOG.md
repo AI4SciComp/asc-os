@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 0.1.0 — 2026-09-15
 
 - Document user-wide installation with uv tools, including the optional MCP
   extra, PATH setup, upgrades, and removal.

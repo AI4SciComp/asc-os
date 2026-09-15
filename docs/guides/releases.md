@@ -1,8 +1,15 @@
-# Release preparation
+# Releases
 
-Version 0.1.0 is the first alpha distribution. Local builds do not publish a
-GitHub release or upload to a package index. The repository's `AGENTS.md`
-prohibits publication unless a maintainer explicitly authorizes an exception.
+Version 0.1.0 is the first alpha distribution, dated 2026-09-15. Its
+[GitHub release](https://github.com/AI4SciComp/asc-os/releases/tag/v0.1.0)
+provides a wheel and source archive. See the [installation guide](installation.md)
+for the commands to install these assets.
+
+Local builds do not publish a GitHub release or upload to a package index.
+The repository's `AGENTS.md` prohibits publication unless a maintainer
+explicitly authorizes an exception. The v0.1.0 exception authorizes a GitHub
+release with the wheel and source archive. PyPI publication is outside its
+scope.
 
 ## Prepare metadata
 
@@ -48,5 +55,7 @@ Do not commit distributions, caches, coverage output, or build logs.
 CI builds and tests distributions as review artifacts. It has no package
 upload or release creation step. A public release needs an explicitly
 authorized destination, reviewed source commit, release notes, and passing
-validation evidence. This guide does not assert that version 0.1.0 has been
-published or that it is available on PyPI.
+validation evidence. Build the assets from the tagged source, attach only the
+intended wheel and source archive, and verify the downloaded assets against
+the locally validated bytes. Version 0.1.0 is distributed through GitHub;
+there is no PyPI publishing step.
